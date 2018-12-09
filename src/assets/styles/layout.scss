@@ -1,0 +1,20 @@
+.containerWrap {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  background-color: #f2f2f2;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  .sidebarWrap{
+    width:auto;
+    position: relative;
+    transition: .3s linear;
+    background-color: #eef1f6;
+    overflow: hidden;
+    user-select: none;
+    flex: none
+  }
+  .contentWrap{
+    flex: auto
+  }
+}

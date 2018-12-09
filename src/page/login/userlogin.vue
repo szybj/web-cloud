@@ -19,43 +19,27 @@
 </template>
 
 <script>
-import { isvalidUsername } from "utils/validate";
-import { mapGetters } from "vuex";
+import { mapGetters } from "vuex"
 export default {
-  name: "userlogin",
+  name: "userLogin",
   data() {
-    const validateUsername = (rule, value, callback) => {
-      if (!isvalidUsername(value)) {
-        callback(new Error("请输入正确的用户名"));
-      } else {
-        callback();
-      }
-    };
     return {
       loginForm: {
         username: "admin",
         password: "123456",
-        code: "",
-        redomStr: ""
+        systemId: 1
       },
       checked: false,
-      code: {
-        src: "",
-        value: "",
-        len: 4,
-        type: "text"
-      },
       loginRules: {
         username: [
-          { required: true, trigger: "blur", validator: validateUsername }
+          { required: true, trigger: "blur",  message: "请输入用户名", }
         ],
         password: [
-          { required: true, message: "请输入密码", trigger: "blur" },
-          { min: 6, message: "密码长度最少为6位", trigger: "blur" }
+          { required: true, message: "请输入密码", trigger: "blur" }
         ]
       },
       passwordType: "password"
-    };
+    }
   },
   created() {},
   mounted() {},
@@ -65,22 +49,19 @@ export default {
   props: [],
   methods: {
     showPassword() {
-      this.passwordType == ""
-        ? (this.passwordType = "password")
-        : (this.passwordType = "");
+      this.passwordType == ""? (this.passwordType = "password"): (this.passwordType = "")
     },
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.$store.dispatch("LoginByUsername", this.loginForm).then(() => {
-            this.$router.push({ path: this.tagWel.value });
+          this.$store.dispatch("logIn", this.loginForm).then(() => {
+            this.$router.push({ path: this.tagWel.value })
           })
         }
-      });
+      })
     }
   }
-};
+}
 </script>
-
 <style>
 </style>

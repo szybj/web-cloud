@@ -1,7 +1,7 @@
 export default {
   title: "真橙金服",
-  logo: "ORANGE-KING",
-  author: "orange-ling",
+  logo: "O",
+  author: "orange-king",
   lockPage: "/lock",
   tokenTime: 6000,
   info: {
@@ -10,13 +10,13 @@ export default {
   wel: {
     title: "真橙金服 后台系统"
   },
-  //http的status默认放行不才用统一处理的,
+  //http的status默认放行不用统一处理的,
   statusWhiteList: [400],
   //配置首页不可关闭
   isFirstPage: false,
   fistPage: {
     label: "首页",
-    value: "/wel/index",
+    value: "/work/home",
     params: {},
     query: {},
     group: [],
@@ -25,10 +25,10 @@ export default {
   //配置菜单的属性
   menu: {
     props: {
-      label: "label",
-      path: "href",
+      label: "text",
+      path: "path",
       icon: "icon",
-      children: "children"
+      children: "sub"
     }
   }
-};
+}

@@ -10,7 +10,7 @@ import Element from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
 import { loadStyle } from "utils/util";
 
-import { iconfontUrl, iconfontVersion } from "@/config/env";
+import { iconfontUrl, iconfontVersion } from "config/env";
 iconfontVersion.forEach(ele => {
   loadStyle(iconfontUrl.replace("$key", ele));
 })

@@ -1,9 +1,15 @@
 <template>
-  <p>主页</p>
+  <p>主页 {{userInfo}}</p>
 </template>
 
 <script>
-export default {};
+  import { mapGetters } from "vuex"
+
+  export default {
+    computed: {
+      ...mapGetters(['userInfo'])
+    }
+  }
 </script>
 
 <style scoped>
