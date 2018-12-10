@@ -37,6 +37,7 @@ router.beforeEach((to, from, next) => {
           next({ path: '/' })
         })
       } else {
+        console.log('to', to)
         const value = to.query.src || to.fullPath
         const label = to.query.name || to.name
         if (meta.isTab !== false && !validatenull(value) && !validatenull(label)) {

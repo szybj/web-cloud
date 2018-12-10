@@ -5,7 +5,7 @@
     </div>
     <div class="contentWrap">
         <top />
-        <div class="tagsBar">navBar</div>
+        <nav-bar />
       <div class="main">
         <el-scrollbar style="height:100%">
           <keep-alive>
@@ -23,10 +23,12 @@
 <script>
   import top from './top/'
   import sidebarMenu from './sidebarMenu/'
+  import navBar from './navBar'
 
   export default {
     components: {
       top,
+      navBar,
       sidebarMenu
     },
     name: "web"
