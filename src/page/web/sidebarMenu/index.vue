@@ -1,22 +1,21 @@
 <template>
-  <div class=""
+  <div class="sidebarWrap"
        :class="{'is-active':isCollapse}">
     <logo :isCollapse="isCollapse"></logo>
-    <div style="height:100%">
-      <el-menu unique-opened
-               :default-active="nowTagValue"
-               mode="vertical"
-               :show-timeout="200"
-               background-color="rgb(0, 20, 42)"
-               text-color="rgba(255,255,255,0.7)"
-               :collapse="isCollapse">
-        <menu-item :menu="sysMenu.sub"
-                   first
-                   :menuProps="website.menu.props"
-                   :collapse="isCollapse">
-        </menu-item>
-      </el-menu>
-    </div>
+    <el-menu unique-opened
+             style="overflow:hidden"
+             :default-active="nowTagValue"
+             mode="vertical"
+             :show-timeout="200"
+             background-color="rgb(0, 20, 42)"
+             text-color="rgba(255,255,255,0.7)"
+             :collapse="isCollapse">
+      <menu-item :menu="sysMenu.sub"
+                 first
+                 :menuProps="website.menu.props"
+                 :collapse="isCollapse">
+      </menu-item>
+    </el-menu>
   </div>
 </template>
 
@@ -44,5 +43,6 @@ export default {
 }
 </script>
 <style lang="scss" scoped>
+
 </style>
 

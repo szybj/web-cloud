@@ -1,8 +1,6 @@
 <template>
   <div class="containerWrap">
-    <div class="sidebarWrap">
-      <sidebar-menu />
-    </div>
+    <sidebar-menu class="leftBar"/>
     <div class="contentWrap">
         <top />
         <nav-bar />
@@ -35,5 +33,22 @@
   }
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
+  .containerWrap{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    position: relative;
+    overflow: hidden;
+    background-color: #f2f2f2;
+    background-size: 100%;
+    background-repeat: no-repeat;
+
+    .contentWrap{
+      flex: 1
+    }
+    .leftBar{
+      width: 230px;
+    }
+  }
 </style>
