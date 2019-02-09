@@ -2,6 +2,10 @@ body, div, dl, dt, dd, ul, ol, li, h1, h2, h3, h4, h5, h6, pre, form, fieldset, 
   margin: 0;
   padding: 0;
 }
+html,
+body {
+  height: 100%;
+}
 ol, ul {
   list-style: none;
 }
@@ -25,7 +29,57 @@ table {
   border-collapse: collapse;
   border-spacing: 0;
 }
-
+.containerWrap{
+  width: 100%;
+  height: 100%;
+  background-color: #f2f2f2;
+  background-size: 100%;
+  background-repeat: no-repeat;
+}
+.headerNavBar {
+  padding-left: 220px;
+  width: 100%;
+  background-color: #fff;
+  box-sizing: border-box;
+}
+.leftNavBar{
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 220px;
+  height: 100%;
+  z-index: 1025;
+}
+.main {
+  position: absolute;
+  left: 220px;
+  margin-top: 5px;
+  padding: 0;
+  padding-bottom: 20px;
+  width: calc(100% - 220px);
+  height: calc(100% - 65px);
+  box-sizing: border-box;
+  overflow: hidden;
+  .el-scrollbar{
+    height: 100%;
+    .el-scrollbar__wrap{
+      overflow-x:hidden;
+    }
+  }
+}
+.is-active {
+  .leftNavBar,
+  .logo {
+    width: 60px;
+  }
+  .headerNavBar {
+    padding-left: 60px;
+  }
+  .main {
+    width: calc(100% - 60px);
+    left: 60px;
+  }
+}
 @import './element-ui.scss';
 @import "./variables.scss";
 @import "./top.scss";
