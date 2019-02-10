@@ -5,9 +5,9 @@ import App from "./App.vue";
 import "./permission";
 import router from "router/router";
 import store from "./store";
-import "assets/styles/index.scss";
 import Element from "element-ui";
 import "element-ui/lib/theme-chalk/index.css";
+import "assets/styles/index.scss";
 import { loadStyle } from "utils/util";
 
 import { iconfontUrl, iconfontVersion } from "config/env";

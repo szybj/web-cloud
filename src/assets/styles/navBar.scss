@@ -1,12 +1,12 @@
-.avue-breadcrumb {
-    &_collapse {
-        line-height: 55px;
-        font-size: 30px !important;
-        &--right {
-            transform: rotate(90deg);
-        }
-    }
-}
+//.avue-breadcrumb {
+//    &_collapse {
+//        line-height: 55px;
+//        font-size: 30px !important;
+//        &--right {
+//            transform: rotate(90deg);
+//        }
+//    }
+//}
 
 .navBar {
     position: relative;
@@ -26,7 +26,7 @@
         border: none;
     }
     .el-tabs--card>.el-tabs__header .el-tabs__item:first-child {
-        border-left-width: 1px
+        border-left-width: 1px!important;
     }
     .el-tabs--card>.el-tabs__header .el-tabs__item {
         margin: 0 3px;
@@ -46,7 +46,7 @@
     .el-tabs__nav-next {
         width: 20px;
         line-height: 34px;
-        font-size: 18x;
+        font-size: 18px;
         text-align: center;
     }
     &Box {

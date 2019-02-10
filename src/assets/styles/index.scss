@@ -78,10 +78,16 @@ table {
   .main {
     width: calc(100% - 60px);
     left: 60px;
+    .el-scrollbar{
+      height: 100%;
+      .el-scrollbar__wrap{
+        overflow-x:hidden;
+      }
+    }
   }
 }
 @import './element-ui.scss';
 @import "./variables.scss";
 @import "./top.scss";
-@import "./navBar.scss";
 @import "./menu.scss";
+@import "./navBar.scss";

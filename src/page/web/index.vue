@@ -11,6 +11,7 @@
         <sidebar-menu />
       </div>
       <div class="main">
+        <nav-bar />
         <el-scrollbar style="height:100%">
         <keep-alive>
           <router-view class="view"
