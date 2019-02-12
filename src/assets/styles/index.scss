@@ -70,14 +70,14 @@ table {
 .is-active {
   .leftNavBar,
   .logo {
-    width: 60px;
+    width: 64px;
   }
   .headerNavBar {
-    padding-left: 60px;
+    padding-left: 64px;
   }
   .main {
-    width: calc(100% - 60px);
-    left: 60px;
+    width: calc(100% - 64px);
+    left: 64px;
     .el-scrollbar{
       height: 100%;
       .el-scrollbar__wrap{

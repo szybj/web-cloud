@@ -9,16 +9,16 @@
         <i :class="item[iconKey]"></i>
         <span slot="title">{{item[labelKey]}}</span>
       </el-menu-item>
-      <el-submenu v-else-if="!validatenull(item[childrenKey])&& vaildRoles(item)"
+      <el-submenu v-else-if="!validatenull(item[childrenKey]) && vaildRoles(item)"
                   :index="item[pathKey]"
                   :key="item[labelKey]">
         <template slot="title">
           <i :class="item[iconKey]"></i>
           <span slot="title"
-                :class="{'el-menu--display':collapse&&first}">{{item[labelKey]}}</span>
+                :class="{'el-menu--display':collapse && first}">{{item[labelKey]}}</span>
         </template>
-        <template v-for="(child,cindex) in item[childrenKey]">
-          <el-menu-item :index="child[pathKey],cindex"
+        <template v-for="(child, cindex) in item[childrenKey]">
+          <el-menu-item :index="child[pathKey]+cindex"
                         @click="open(child)"
                         :class="{'is-active':vaildAvtive(child)}"
                         v-if="validatenull(child[childrenKey])"
