@@ -57,11 +57,9 @@ export default {
   methods: {
     //激活当前选项
     setActive () {
-      console.log('this.tag', this.tag)
       this.active = this.tag.value
     },
     openTag (item) {
-      console.log('item', item)
       let tag
       if (item.name) {
         tag = this.findTag(item.name).tag

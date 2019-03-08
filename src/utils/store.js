@@ -1,4 +1,4 @@
-import { validatenull } from "utils/validate"
+import { validateNull } from "utils/validate"
 
 /**
  * 存储localStorage
@@ -25,10 +25,10 @@ export const getStore = params => {
   let { name, type, debug } = params
   let obj = {}, content
   obj = window.localStorage.getItem(name)
-  if (validatenull(obj)) {
+  if (validateNull(obj)) {
     obj = window.sessionStorage.getItem(name)
   }
-  if (validatenull(obj)) {
+  if (validateNull(obj)) {
     return
   }
   obj = JSON.parse(obj)

@@ -1,31 +1,80 @@
+import { setStore, getStore } from 'utils/store'
+
 /**
  * select数据格式转换
  */
-export const getSelectData = (option, isAll) => {
+export const getSelectData = (sourceDate, option) => {
+  return new Promise((resolve) => {
+    const arr = []
+    if (option && option.isAll === true) {
+      arr.push({
+        value: '',
+        label: '全部'
+      })
+    }
+    if (sourceDate.data && Array.isArray(sourceDate.data)) {
+      sourceDate.data.forEach(item => {
+        if (option && option.filter && option.filter[item[sourceDate.valueKey]]) {
+          return
+        } else {
+          arr.push({
+            value: item[sourceDate.valueKey].toString(),
+            label: item[sourceDate.labelKey]
+          })
+        }
+      })
+    } else {
+      for (let item in sourceDate.data) {
+        if (option && option.filter && option.filter[item]) {
+          continue
+        } else {
+          arr.push({
+            value: item,
+            label: sourceDate.data[item]
+          })
+        }
+      }
+    }
+    resolve(arr)
+  })
+}
+/**
+ * 校验登陆状态
+ * @returns {boolean}
+ */
+export const checkLoginState = function () {
+  return !!getStore({name: 'userInfo'})
+}
+/**
+ * 订单选项格式化
+ * @param orderDic
+ * @param isAll
+ * @returns {Promise<any>}
+ */
+export const orderSelectFormat = (sourceDate, option) => {
   return new Promise((resolve, reject) => {
     let arr = []
-    if (isAll === true) {
+    let hash = {}
+    if (option && option.isAll === true) {
       arr.push({
         value: "",
         label: "全部"
       })
     }
-    if (option.data && Array.isArray(option.data)) {
-      option.data.forEach(item => {
+    for (let item in sourceDate.data) {
+      for (let key in sourceDate.data[item]) {
+        item = key === '-2' ? '1' : item
         arr.push({
-          value: item[option.valueKey].toString(),
-          label: item[option.labelKey]
-        })
-      })
-    } else {
-      for (let item in option) {
-        arr.push({
-          value: item,
-          label: option[item]
+          value: item + ':' + key,
+          label: sourceDate.data[item][key]
         })
       }
     }
-    resolve(arr)
+    const result = arr.reduce((item, next) => {
+      hash[next.value] ? '' : hash[next.value] = true && item.push(next)
+      return item
+    }, [])
+    resolve(result)
   })
 }
 /**
@@ -131,4 +180,99 @@ export const serialize = data => {
     list.push(`${ele}=${data[ele]}`)
   })
   return list.join('&')
+}
+/**
+ * 判空
+ * @param val
+ * @returns {boolean}
+ */
+export function validateNull (val) {
+  if (typeof val === 'boolean') {
+    return false
+  }
+  if (typeof val === 'number') {
+    return false
+  }
+  if (val instanceof Array) {
+    if (val.length === 0) return true
+  } else if (val instanceof Object) {
+    if (JSON.stringify(val) === '{}') return true
+  } else {
+    if (
+      val === 'null' ||
+      val == null ||
+      val === 'undefined' ||
+      val === undefined ||
+      val === ''
+    ) {
+      return true
+    }
+    return false
+  }
+  return false
+}
+
+/**
+ * 初始化数据格式
+ * @param type
+ * @param multiple
+ * @param value
+ * @param listType
+ * @returns {*}
+ */
+export const initVal = ({ type, multiple, value, listType }) => {
+  if ((['select'].includes(type) && multiple) || ['cascader'].includes(type)) {
+    if (!Array.isArray(value)) {
+      return (value || [])
+    } else {
+      return value
+    }
+  } else {
+    return value
+  }
+}
+/**
+ * 表单初始化值
+ * @param list
+ */
+export const formInitVal = (list) => {
+  let form = {}
+  list.forEach(ele => {
+    if ( ele.type === 'checkbox' || ele.type === 'cascader' || ele.type === 'dates' || (ele.type === 'upload' && ele.listType !== 'picture-img') || ele.multiple || ele.range || ele.dataType === 'array') {
+      if (ele.search) form[ele.prop] = []
+    } else if (['number'].includes(ele.type) || ele.dataType === 'number') {
+      if (ele.search) {
+        form[ele.prop] = 0
+      }
+    } else {
+      form[ele.prop] = ''
+    }
+    //搜索表单默认值设置
+    if (!validateNull(ele.default)) {
+      form[ele.prop] = ele.default
+    }
+  })
+  return form
+}
+/**
+ * 搜索框获取动态组件
+ */
+export const searchType = (type) => {
+  if (['year', 'month', 'date', 'dates', 'week', 'datetime', 'datetimerange', 'daterange'].includes(type)) {
+    return 'orangeDate'
+  } else if (['select'].includes(type)) {
+    return 'orangeSelect'
+  } else if (['cascader'].includes(type)) {
+    return 'orangeCascader'
+  }
+  return 'orangeInput'
+}
+/**
+ * 获取字典
+ * @param dicData
+ * @param DIC
+ * @returns {*}
+ */
+export const setDic = (dicData, DIC) => {
+  return (typeof (dicData) === 'string') ? DIC : dicData
 }

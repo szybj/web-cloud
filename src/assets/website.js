@@ -3,7 +3,6 @@ export default {
   logo: "O",
   author: "orange-king",
   lockPage: "/lock",
-  tokenTime: 6000,
   info: {
     title: "真橙金服 后台系统"
   },
@@ -14,6 +13,8 @@ export default {
   statusWhiteList: [400],
   //配置首页不可关闭
   isFirstPage: false,
+  // 是否使用mock模拟数据
+  mockData: false,
   fistPage: {
     label: "首页",
     value: "/work/home",

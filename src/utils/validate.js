@@ -131,7 +131,7 @@ export function cardid(code) {
     82: "澳门",
     91: "国外 "
   }
-  if (!validatenull(code)) {
+  if (!validateNull(code)) {
     if (code.length == 18) {
       if (!code || !/(^\d{18}$)|(^\d{17}(\d|X|x)$)/.test(code)) {
         msg = "证件号码格式错误"
@@ -179,7 +179,7 @@ export function isvalidatemobile(phone) {
   let msg = ""
   var isPhone = /^0\d{2,3}-?\d{7,8}$/
   //增加134 减少|1349[0-9]{7}，增加181,增加145，增加17[678]
-  if (!validatenull(phone)) {
+  if (!validateNull(phone)) {
     if (phone.length == 11) {
       if (isPhone.test(phone)) {
         msg = "手机号码格式不正确"
@@ -237,7 +237,7 @@ export function validatenumord(num, type) {
 /**
  * 判断是否为空
  */
-export function validatenull(val) {
+export function validateNull(val) {
   if (typeof val == "boolean") {
     return false
   }

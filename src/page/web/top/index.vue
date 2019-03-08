@@ -26,11 +26,11 @@
   </div>
 </template>
 <script>
-import { mapGetters } from "vuex"
-import { fullscreenToggel, listenfullscreen } from "utils/util"
+import { mapGetters } from 'vuex'
+import { fullscreenToggel, listenfullscreen } from 'utils/util'
 export default {
   components: { },
-  name: "top",
+  name: 'top',
   data () {
     return {};
   },
@@ -43,18 +43,18 @@ export default {
   },
   methods: {
     showCollapse () {
-      this.$store.commit("SET_COLLAPSE")
+      this.$store.commit('SET_COLLAPSE')
     },
     logout () {
-      this.$confirm("是否退出系统, 是否继续?", "提示", {
-        confirmButtonText: "确定",
-        cancelButtonText: "取消",
-        type: "warning"
+      this.$confirm('是否退出系统, 是否继续?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
       }).then(() => {
-        this.$store.dispatch("logOut").then(() => {
-          this.$router.push({ path: "/login" })
-        });
-      });
+        this.$store.dispatch('logOut').then(() => {
+          this.$router.push({ path: '/login' })
+        })
+      })
     }
   }
 }
@@ -62,4 +62,3 @@ export default {
 
 <style lang="scss" scoped>
 </style>
-

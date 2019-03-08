@@ -1,7 +1,7 @@
 <template>
   <div class="menuWrap" style="color:#fff">
     <template v-for="item in menu">
-      <el-menu-item v-if="validatenull(item[childrenKey]) && vaildRoles(item)"
+      <el-menu-item v-if="validateNull(item[childrenKey]) && vaildRoles(item)"
                     :index="item[pathKey]"
                     @click="open(item)"
                     :key="item[labelKey]"
@@ -9,7 +9,7 @@
         <i :class="item[iconKey]"></i>
         <span slot="title">{{item[labelKey]}}</span>
       </el-menu-item>
-      <el-submenu v-else-if="!validatenull(item[childrenKey]) && vaildRoles(item)"
+      <el-submenu v-else-if="!validateNull(item[childrenKey]) && vaildRoles(item)"
                   :index="item[pathKey]"
                   :key="item[labelKey]">
         <template slot="title">
@@ -21,7 +21,7 @@
           <el-menu-item :index="child[pathKey]+cindex"
                         @click="open(child)"
                         :class="{'is-active':vaildAvtive(child)}"
-                        v-if="validatenull(child[childrenKey])"
+                        v-if="validateNull(child[childrenKey])"
                         :key="child[labelKey]">
             <i :class="child[iconKey]"></i>
             <span slot="title">{{child[labelKey]}}</span>
@@ -40,7 +40,7 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
-import { validatenull } from 'utils/validate'
+import { validateNull } from 'utils/validate'
 import config from './config.js'
 export default {
   name: 'menuItem',
@@ -89,8 +89,8 @@ export default {
       item.meta = item.meta || {};
       return item.meta.roles ? item.meta.roles.includes(this.roles) : true
     },
-    validatenull (val) {
-      return validatenull(val);
+    validateNull (val) {
+      return validateNull(val);
     },
     open (item) {
       if (this.screen <= 1){

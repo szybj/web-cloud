@@ -1,8 +1,7 @@
 import request from './axios'
-import { baseUrl } from "config/env"
 
 export const logIn = data => request({
-  url: `${baseUrl}/api/login`,
+  url: `https://jarvis-api.orange-king.com/v1/api/login`,
   method: 'get',
-  params: {...data}
+  params: { ...data }
 })
