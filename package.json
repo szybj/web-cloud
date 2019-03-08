@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "test:e2e": "vue-cli-service test:e2e",
+    "test:e2e": "vue-cli-service test:e2e",  
     "test:unit": "vue-cli-service test:unit"
   },
   "dependencies": {
@@ -14,9 +14,11 @@
     "babel-polyfill": "^6.26.0",
     "classlist-polyfill": "^1.2.0",
     "element-ui": "^2.4.11",
-    "js-cookie": "^2.2.0",
+    "mockjs": "^1.0.1-beta3",
     "nprogress": "^0.2.0",
     "vue": "^2.5.17",
+    "vue-filter": "^0.2.5",
+    "vue2-filters": "^0.4.1",
     "vue-axios": "^2.1.4",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
