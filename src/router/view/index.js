@@ -25,6 +25,11 @@ export default [
         path: "view/report/:viewId",
         name: "配置测试",
         component: () => import(/* webpackChunkName: "view" */ "view/sales/reportForm")
+      },
+      {
+        path: "sales/details",
+        name: "配置测试",
+        component: () => import(/* webpackChunkName: "view" */ "view/sales/details")
       }
     ]
   }

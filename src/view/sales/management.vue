@@ -195,6 +195,7 @@ export default {
       return '';
     },
     testClick (rowData) {
+      this.$router.push({path: 'work/view/details'})
       console.log('rowData', rowData)
     },
     handleFormChange (form) {
