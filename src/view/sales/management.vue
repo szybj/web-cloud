@@ -12,7 +12,7 @@
       @size-change="handleSizeChange"
       @form-change="handleFormChange"
       :row-class-name="tableRowClassName">
-      <template slot-scope="scope" slot="search">
+      <!-- <template slot-scope="scope" slot="search"> -->
         <!--<el-form :inline="true" :model="searchForm" size="small" class="demo-form-inline">-->
         <!--<el-form-item label="审批人">-->
         <!--<el-input v-model="searchForm.user" placeholder="审批人"></el-input>-->
@@ -27,7 +27,7 @@
         <!--<el-button type="primary" @click="onSubmit">查询</el-button>-->
         <!--</el-form-item>-->
         <!--</el-form>-->
-      </template>
+      <!-- </template> -->
       <template slot-scope="scope"
                 slot="expand">
         <el-tag>{{scope.row.salesmanName}}</el-tag>
@@ -195,7 +195,7 @@ export default {
       return '';
     },
     testClick (rowData) {
-      this.$router.push({path: 'work/view/details'})
+      this.$router.push({path: 'details'})
       console.log('rowData', rowData)
     },
     handleFormChange (form) {
