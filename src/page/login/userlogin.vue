@@ -58,7 +58,7 @@ export default {
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.$store.dispatch("logIn", this.loginForm).then(() => {
+          this.logIn(this.loginForm).then(() => {
             this.getSalesDistrict()
             const areaData = [
               {

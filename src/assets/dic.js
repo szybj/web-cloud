@@ -85,7 +85,7 @@ export const accountStatusDict = {
   }
 }
 export const salesmanStateDict = {
-  '1': '在职',
+  '2': '在职',
   '-2': '离职'
 }
 export const attachDict = {

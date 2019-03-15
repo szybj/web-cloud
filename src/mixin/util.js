@@ -46,11 +46,11 @@ export default function() {
         }
         return result
       },
-      setData (val, dafult) {
+      setData (val, defaultValue) {
         if (typeof val === 'boolean') {
           return val
         }
-        return !util.validateNull(val) ? val : dafult
+        return !util.validateNull(val) ? val : defaultValue
       }
     }
   }

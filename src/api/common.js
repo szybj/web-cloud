@@ -5,3 +5,15 @@ export const getDistrictCode = data => request({
   method: 'get',
   data
 })
+
+// view
+export const viewConfig = viewId => request({
+  url: `/report/view/${viewId}`,
+  method: 'get'
+})
+
+export const viewData = (url, data) => request({
+  url: url,
+  method: 'post',
+  data
+})

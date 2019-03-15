@@ -1,5 +1,5 @@
 <template>
-  <el-input v-model="text"
+  <el-input v-model.trim="text"
             :size="size"
             :clearable="clearable"
             @change="handleChange"

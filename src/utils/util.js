@@ -257,13 +257,17 @@ export const formInitVal = (list) => {
 /**
  * 搜索框获取动态组件
  */
-export const searchType = (type) => {
+export const getComponent = (type) => {
   if (['year', 'month', 'date', 'dates', 'week', 'datetime', 'datetimerange', 'daterange'].includes(type)) {
     return 'orangeDate'
   } else if (['select'].includes(type)) {
     return 'orangeSelect'
   } else if (['cascader'].includes(type)) {
     return 'orangeCascader'
+  } else if (['table'].includes(type)) {
+    return 'orangeTable'
+  } else if (['detailsTable'].includes(type)){
+    return 'detailsTable'
   }
   return 'orangeInput'
 }

@@ -47,14 +47,20 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 import * as util from 'utils/util.js'
-import { view, salesList} from '@/api/reportForm'
+import { view, getList} from '@/api/reportForm'
 import DIC from 'assets/dic'
 
 export default {
   computed: {
-    ...mapGetters(['userInfo'])
+    ...mapGetters(['userInfo']),
+    detailQueryParams () {
+      return this.detailQuery.params || []
+    },
+    viewId () {
+      return this.$route.params.viewId
+    }
   },
   data () {
     return {
@@ -65,7 +71,8 @@ export default {
       tableOption: {},
       tableData: [],
       searchForm: {},
-      isPage: false,
+      detailQuery: {},
+      isPage: true,
       page: {
         total: 0,
         page: 1,
@@ -74,10 +81,11 @@ export default {
     }
   },
   created () {
-    this.getOption().then(data => {
+    this.getViewConfig(this.viewId).then(data => {
       if (!util.validateNull(data.searchOption) || !util.validateNull(data.tableOption)) {
         this.searchOption = data.searchOption
         this.tableOption = data.tableOption
+        this.detailQuery = data.detailQuery
         this.isPage = data.isPage
         this.findReport(this.searchForm)
       } else {
@@ -89,6 +97,7 @@ export default {
   },
   mounted () {},
   methods: {
+    ...mapActions(['getViewConfig', 'getViewData']),
     tableRowClassName ({ rowIndex }) {
       if (rowIndex === 1) {
         return 'warning-row';
@@ -98,6 +107,13 @@ export default {
       return '';
     },
     testClick (rowData) {
+      let rouerQuery = {}
+      this.detailQueryParams.forEach(k => {
+        rouerQuery[k] = rowData[k]
+      })
+      let rouerParams = Object.assign({}, this.detailQuery, {params: rouerQuery})
+      this.$store.commit('SET_DETAILQUERY', rouerParams)
+      this.$router.push({ path: `details`, query: { ...rouerParams.params }})
       console.log('rowData', rowData)
     },
     handleFormChange (form) {
@@ -113,17 +129,11 @@ export default {
       this.page.pageRows = val
       this.findReport(formUpdate)
     },
-    getOption () {
-      return new Promise((resolve, reject) => {
-        view(this.$route.params.viewId).then(res => {
-          const resData = res.data.data
-          resolve(resData)
-        })
-      })
-    },
     findReport (form) {
       this.tableLoading = true
-      salesList(this.$route.params.viewId, Object.assign({}, form, this.page)).then(res => {
+      const url = this.isPage ? `/report/data/${this.viewId}?page=${this.page.page || 1}&pageRows=${this.page.pageRows || 10}` :
+        `/report/data/${this.viewId}`
+      this.getViewData({ formParams: form, url }).then(res => {
         const data = res.data.data
         this.tableData = data.list
         this.page.total = data.total

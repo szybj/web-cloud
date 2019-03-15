@@ -5,7 +5,7 @@
                   :key="index"
                   :prop="column.prop"
                   :label="column.label">
-      <component :is="searchType(column.type)"
+      <component :is="getComponent(column.type)"
                  :size="setData(formOption.size, 'mini')"
                  :type="column.type"
                  :dataType="column.dataType"

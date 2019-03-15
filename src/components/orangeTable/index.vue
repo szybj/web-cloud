@@ -2,7 +2,7 @@
   <div v-loading="loading"
        :element-loading-text="loadingText">
     <!--搜索项-->
-    <div class="searchBox" v-if="setData(searchOption.search,true) && searchOption.option && searchOption.option.length">
+    <div class="searchBox" v-if="setData(searchOption && searchOption.search,true) && searchOption && searchOption.option && searchOption.option.length">
       <slot name="search">
         <orange-form
         :formOption="searchOption"
@@ -14,16 +14,16 @@
       <el-table
         v-if="columnOption && columnOption.length"
         :data="tableData"
-        :size="setData(tableOption.size, 'small')"
-        :stripe="tableOption.stripe"
-        :border="tableOption.border"
-        :show-header="tableOption.showHeader"
+        :size="setData(tableConfig.size, 'small')"
+        :stripe="tableConfig.stripe"
+        :border="tableConfig.border"
+        :show-header="tableConfig.showHeader"
         :row-class-name="rowClassName"
-        :default-sort="tableOption.defaultSort"
+        :default-sort="tableConfig.defaultSort"
         :cell-class-name="cellClassName"
         @sort-change="sortChange">
         <!-- 折叠面板  -->
-        <el-table-column v-if="tableOption.expand"
+        <el-table-column v-if="tableConfig.expand"
                          type="expand"
                          width="50"
                          fixed="left"
@@ -34,15 +34,15 @@
           </template>
         </el-table-column>
         <!--选择框-->
-        <el-table-column v-if="tableOption.selection"
+        <el-table-column v-if="tableConfig.selection"
                          type="selection"
                          width="50"
                          fixed="left"
                          align="center">
         </el-table-column>
         <!--索引-->
-        <el-table-column v-if="tableOption.index"
-                         :label="setData(tableOption.indexLabel, '#')"
+        <el-table-column v-if="tableConfig.index"
+                         :label="setData(tableConfig.indexLabel, '#')"
                          type="index"
                          width="50"
                          :index="indexMethod"
@@ -56,8 +56,8 @@
                          :prop="column.prop"
                          :label="column.label"
                          :sortable="column.sortable"
-                         :align="setData(column.align, tableOption.align)"
-                         :header-align="setData(column.headerAlign, tableOption.headerAlign)"
+                         :align="setData(column.align, tableConfig.align)"
+                         :header-align="setData(column.headerAlign, tableConfig.headerAlign)"
                          :show-overflow-tooltip="column.overHidden">
           <!--复合表头-->
           <el-table-column v-if="column.children"
@@ -86,11 +86,11 @@
         </el-table-column>
         <!--操作-->
         <el-table-column fixed="right"
-                         v-if="setData(tableOption.menu, 'false')"
-                         :label="setData(tableOption.menuTitle, '操作')"
-                         :align="setData(tableOption.menuAlign, 'center')"
-                         :header-align="setData(tableOption.menuHeaderAlign, 'left')"
-                         :width="setData(tableOption.menuWidth, 200)">
+                         v-if="setData(tableConfig.menu, 'false')"
+                         :label="setData(tableConfig.menuTitle, '操作')"
+                         :align="setData(tableConfig.menuAlign, 'center')"
+                         :header-align="setData(tableConfig.menuHeaderAlign, 'left')"
+                         :width="setData(tableConfig.menuWidth, 200)">
           <template slot-scope="scope">
             <slot name="menu"
                   :row="scope.row">
@@ -127,14 +127,13 @@ export default {
       type: Object,
       default: () => {}
     },
-    tableOption: {
+    tableConfig: {
       type: Object,
       required: true,
       default: () => {}
     },
     searchOption: {
       type: Object,
-      required: true,
       default: () => {}
     },
     page: {
@@ -159,7 +158,7 @@ export default {
   },
   computed: {
     columnOption () {
-      return this.tableOption.column || []
+      return this.tableConfig.column || []
     },
     pageFlag() {
       return !util.validateNull(this.pageUpdate.total)

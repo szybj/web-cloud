@@ -6,6 +6,10 @@ import orangeSelect from 'components/orangeSelect'
 import orangeInput from 'components/orangeInput'
 import orangeDate from 'components/orangeDate'
 import orangePagination from 'components/orangePagination'
+import orangeTabs from 'components/orangeTabs'
+import detailsTable from 'components/detailsTable'
+import siderbar from 'components/siderbar/siderbar'
+import siderbarPane from 'components/siderbar/siderbarPane'
 
 const components = [
   contentBlock,
@@ -15,7 +19,11 @@ const components = [
   orangeSelect,
   orangeInput,
   orangeDate,
-  orangePagination
+  orangePagination,
+  orangeTabs,
+  detailsTable,
+  siderbar,
+  siderbarPane
 ]
 function install (Vue, opts = {}) {
   components.map(component => {
@@ -31,6 +39,10 @@ export default {
   orangeSelect,
   orangeInput,
   orangeDate,
-  orangePagination
+  orangePagination,
+  orangeTabs,
+  detailsTable,
+  siderbar,
+  siderbarPane
 }
 

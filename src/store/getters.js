@@ -6,6 +6,7 @@ const getters = {
   userInfo: state => state.user.userInfo,
   roles: state => state.user.roles,
   sysMenu: state => state.user.sysMenu,
-  isCollapse: state => state.common.isCollapse
+  isCollapse: state => state.common.isCollapse,
+  detailQuery: state => state.common.detailQuery
 }
 export default getters

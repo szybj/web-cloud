@@ -28,7 +28,7 @@ export default [
       },
       {
         path: 'sales/details',
-        component: () => import(/* webpackChunkName: "view" */ 'view/sales/details')
+        component: () => import(/* webpackChunkName: "view" */ 'view/sales/detailsPage')
       }
     ]
   }
