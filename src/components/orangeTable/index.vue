@@ -174,7 +174,10 @@ export default {
     // this.dataInit()
   },
   mounted () {
-    window.onresize = this.tableAutoHeight()
+    this.$nextTick(() => {
+      this.setMaxHeight()
+      window.onresize = this.tableAutoHeight()
+    })
   },
   destroyed () {
     window.onresize = null
@@ -225,8 +228,6 @@ export default {
       let wrapHeight = document.querySelectorAll('.contentBlock')[0].offsetHeight || 0
       let searchBoxHeight = this.$refs.table && this.$refs.table.$el.offsetTop || 0
       this.tabMaxHeight = wrapHeight - searchBoxHeight - 80
-      console.log('searchHeight', wrapHeight)
-      console.log('this.tabMaxHeight', this.tabMaxHeight)
     },
     tableAutoHeight () {
       return util.debounce(this.setMaxHeight, 200)
