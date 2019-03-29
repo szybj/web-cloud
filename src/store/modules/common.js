@@ -35,8 +35,7 @@ const common = {
       console.log('searchParams', formParams)
       return new Promise((resolve, reject) => {
         viewData(url, formParams).then(res => {
-          const resData = res.data.data
-          resolve(resData)
+          resolve(res)
         })
       })
     }

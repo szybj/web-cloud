@@ -2,7 +2,7 @@ import * as util from 'utils/util.js'
 import * as filter from 'utils/filter.js'
 import DIC from 'assets/dic'
 
-export default function() {
+export default function () {
   return {
     created() {
       this.init()
@@ -28,7 +28,7 @@ export default function() {
           result = '----'
         }
         if (type) {
-          if (['time'].includes(type)) {
+          if (['date'].includes(type)) {
             result = this.customDate(result, formatter)
           }
           if (['currency'].includes(type)) {
@@ -36,6 +36,9 @@ export default function() {
           }
           if (['district'].includes(type)) {
             result = this.districtFormatter(row)
+          }
+          if (['order'].includes(type)) {
+            result = this.orderState(row)
           }
         }
         if (column.dicData && typeof column.dicData === 'string') {

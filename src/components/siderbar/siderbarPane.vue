@@ -1,4 +1,4 @@
- <template>
+<template>
   <div
     class="siderbar-pane"
     v-if="loaded || active"

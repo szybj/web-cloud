@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import { getArea } from 'utils/loginUtils.js'
-import { districtTypeDict } from 'assets/dic.js'
+import * as dict from 'assets/dic.js'
 import { getInvestorList } from 'utils/loginUtils.js'
 
 // 占位
@@ -13,7 +13,7 @@ export const customDate = (value, format = '%F', placeholder = '----') => Number
 export const customCurrency = (value, digit = 2, placeholder = '----') => value || value === 0 ? Vue.filter('currency')(value, '', digit) : placeholder
 
 // 订单状态
-export const orderState = (value, dict, placeholder = '----') => dict[value.step][value.state] ? dict[value.step][value.state] : placeholder
+export const orderState = (value, orderDict = dict.orderStatusDict, placeholder = '----') => orderDict[value.step][value.state] ? orderDict[value.step][value.state] : placeholder
 
 /***
  * 资方映射
@@ -58,7 +58,7 @@ export const districtFormatter = (val, districtCode = 'districtCode', district =
     })
   })
   if (districtObj.type === 40) {
-    return val[districtCode] && districtObj.district && districtObj.city ? `${districtObj.district}-${districtObj.city}（${districtObj.parentDistrict}${districtTypeDict[districtObj.type]}）` : val[district] || '----'
+    return val[districtCode] && districtObj.district && districtObj.city ? `${districtObj.district}-${districtObj.city}（${districtObj.parentDistrict}${dict.districtTypeDict[districtObj.type]}）` : val[district] || '----'
   }
   return val[districtCode] && districtObj.district && districtObj.city ? `${districtObj.district}-${districtObj.city}` : val[district] || '----'
 }

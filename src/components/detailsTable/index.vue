@@ -1,12 +1,12 @@
 <template>
   <div class='myTable'>
     <table border='0' cellspacing='1' cellpadding='0'>
-      <template v-for='(k, index) in columnconfig'>
+      <template v-for='(k, index) in columnConfig'>
         <tr v-if='index %columnNum === 0'>
           <template v-for='columnIndex in columnNum'>
-            <template  v-if='columnconfig[index + (columnIndex - 1)]'>
-              <td>{{columnconfig[index + (columnIndex - 1)]['label']}}：</td>
-              <td v-html='detail(tableData, columnconfig[index + (columnIndex - 1)])'></td>
+            <template  v-if='columnConfig[index + (columnIndex - 1)]'>
+              <td>{{columnConfig[index + (columnIndex - 1)]['label']}}：</td>
+              <td v-html='detail(tableData, columnConfig[index + (columnIndex - 1)])'></td>
             </template>
             <template v-else>
               <td></td>
@@ -32,31 +32,36 @@
         default: () => {}
       },
       tableData: {
-        type: Object,
-        required: true,
-        default: () => {}
+        type: [Object, Array],
+        required: true
       }
     },
     computed: {
-      columnconfig () {
+      columnConfig () {
         return this.tableConfig.column || []
       },
       columnNum () {
-        let clientWidth = document.body.clientWidth
-        console.log('width', clientWidth)
-        return 3
+        return this.tableConfig.columnNum || 4
       }
     },
     data () {
       return {}
     },
-    mounted () {
-      window.addEventListener('resize', this.throttle(this.tableAuto, 100))
-    },
+    // created () {
+    //   console.log('创建自定义表格')
+    //   window.onresize = this.throttle(this.a, 1000)
+    // },
+    // destroyed () {
+    //   console.log('销毁自定义表格')
+    //   window.onresize = null
+    // },
     methods: {
-      tableAuto () {
-        console.log('asdad')
-      }
+      // a () {
+      //   let clientWidth = document.body.clientWidth
+      //   console.log('width', clientWidth)
+      //   this.$emit('resize', clientWidth)
+      //   console.log('窗口变化')
+      // }
     }
   }
 </script>

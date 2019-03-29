@@ -1,6 +1,5 @@
 <script>
   export default {
-    name: 'siderbarNav',
     props: {
       panes: Array,
       paneClick: Function,
@@ -75,7 +74,7 @@
         let background = this.navActiveColor ? {background: (pane.active && this.navActiveColor) || 'none'} : {}
         return (
           <el-tooltip class={`item_${index}`} effect="dark" content={pane.label || pane.name || pane.index} placement={tooltipP}>
-            <span
+            <span  
               on-click={(e) => {this.active(pane, paneName, e)}}
               style={{...navPaneStyle, ...background}}
               class={{

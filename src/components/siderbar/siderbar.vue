@@ -11,6 +11,10 @@
         type: String,
         default: 'right'
       },
+      type: {
+        type: String,
+        default: 'normal'
+      },
       navActiveColor: {
         type: String,
         default: ''
@@ -62,8 +66,13 @@
         }
         if (this.position === 'bottom') {
           positionStyle = {
-            width:`${this.width}px`,
+            width: '100%',
             height: `${this.navWidth}px`
+          }
+        }
+        if (this.type === 'simple') {
+          return {
+            display: 'none'
           }
         }
         return Object.assign({}, defaultStyle, positionStyle)
@@ -71,10 +80,10 @@
       warpStyle () {
         let defaultStyle = {
           width:`${this.width}px`,
-          zIndex: 10000,
-          height: this.height === '100%' ? this.height : `${parseInt(this.height)}px`,
+          zIndex: 1000,
+          // height: this.height === '100%' ? this.height : `${parseInt(this.height)}px`,
           borderColor: this.borderColor,
-          position: 'absolute'
+          bottom: this.bottom
         }
         let positionStyle = {
           borderLeft: 'none',
@@ -92,10 +101,38 @@
           let num = parseInt(this.width - this.navWidth) - parseInt(this.bottom)
           positionStyle = {
             borderTop: 'none',
+            width: '100%',
+            height: this.height === '100%' ? this.height : `${parseInt(this.height)}px`,
             bottom: this.currentName ? 0 : `-${num > 0 ? num : - num}px`,
           }
         }
+        if (this.type === 'simple') {
+          return {
+            left: 0,
+            right: 0,
+            bottom: `${this.bottom}px`,
+            background: '#fff',
+            border: 0,
+            zIndex: 10000,
+            height: this.height === '100%' ? this.height : `${parseInt(this.height)}px`
+          }
+        }
         return Object.assign({}, defaultStyle, positionStyle)
+      },
+      lockStyle () {
+        if (this.position === 'bottom') {
+          return {
+            right: '40px'
+          }
+        }
+        if (this.position === 'left') {
+          return {
+            left: '6px'
+          }
+        }
+        return {
+          right: '6px'
+        }
       },
       contentStyle () {
         let defaultStyle = {
@@ -113,6 +150,14 @@
           positionStyle = {
             top: `${this.navWidth}px`,
             height: `${parseInt(this.height) - this.navWidth - 2}px`,
+            width: '100%',
+            display: 'flex',
+            flexDirection: 'column'
+          }
+        }
+        if (this.type === 'simple') {
+          return {
+            height: `100%`,
             width: '100%',
             display: 'flex',
             flexDirection: 'column'
@@ -142,6 +187,8 @@
     data () {
       return {
         title: '',
+        clickTarget: '',
+        lock: false,
         currentName: this.activeName,
         panes: []
       }
@@ -155,46 +202,54 @@
           const paneSlots = this.$slots.default.filter(vnode => vnode.tag &&
             vnode.componentOptions && vnode.componentOptions.Ctor.options.name === 'siderbarPane');
           // update indeed
-          const panes = paneSlots.map(({ componentInstance }) => componentInstance);
+          const panes = paneSlots.map(({ componentInstance }) => componentInstance)
           if (!(panes.length === this.panes.length && panes.every((pane, index) => pane === this.panes[index]))) {
-            this.panes = panes;
+            this.panes = panes
           }
         } else if (this.panes.length !== 0) {
-          this.panes = [];
+          this.panes = []
         }
       },
       handleTabClick(pane, paneName, event) {
-        if (pane.disabled) return;
-        this.setCurrentName(paneName);
+        if (pane.disabled) return
+        this.setCurrentName(paneName)
         this.active(pane)
       },
       setCurrentName(value) {
         const changeCurrentName = () => {
-          this.currentName = value;
+          this.currentName = value
         };
         if (this.currentName !== value && this.beforeLeave) {
           const before = this.beforeLeave(value, this.currentName);
           if (before && before.then) {
             before.then(() => {
-              changeCurrentName();
+              changeCurrentName()
               this.$refs.nav && this.$refs.nav.removeFocus();
             });
           } else if (before !== false) {
-            changeCurrentName();
+            changeCurrentName()
           }
         } else {
-          changeCurrentName();
+          changeCurrentName()
         }
       },
-      doc () {
-        let _this = this
-        document.onclick = function (ev) {
-          _this.close()
+      doc (e) {
+        if (e.target !== this.clickTarget) {
+          this.close()
         }
       },
       stopPropagation (e) {
-        e.preventDefault();
-        window.event ? window.event.cancelBubble = true : e.stopPropagation();
+        this.clickTarget = e.target
+        // e.preventDefault()
+        // window.event ? window.event.cancelBubble = true : e.stopPropagation()
+      },
+      lockChange (value) {
+        this.lock = value
+        if (this.lock) {
+          document.removeEventListener('click', this.doc)
+        } else {
+          document.addEventListener('click', this.doc)
+        }
       },
       active (pane) {
         this.title = pane.label || pane.name || pane.index
@@ -217,6 +272,7 @@
         warpStyle,
         contentStyle,
         closeIconStyle,
+        lockStyle,
         navStyles
       } = this
       const navData = {
@@ -229,8 +285,7 @@
         }
       }
       let nav_horizontal = position === 'left' || position === 'right'
-      return (
-        <div class={'siderbar_wrap'}
+      return (<div class={'siderbar_wrap'}
           style={warpStyle}
           on-click={(e) => {this.stopPropagation(e)}}
         >
@@ -240,27 +295,34 @@
             <siderbarNav {...navData} />
           </div>
           <div class={"siderbar_content"} style={contentStyle}>
-            <div class={"title"}>
-              <i style={closeIconStyle} on-click={() => this.close()} class={"icon iconfont icon-iconfonthaofang26-copy-copy-copy toggle_icon"}></i>
+            <div class={"title"} style={{display: this.type === 'simple' ? 'none' : 'block'}}>
+              <i style={closeIconStyle} on-click={() => this.close()} class={"el-icon-d-arrow-right toggle_icon"}></i>
+              <span class="lock_page" style={lockStyle}>
+                <el-tooltip content={this.lock ? "锁定页面" : "取消锁定"} placement="top">
+                  <el-switch
+                    style={{marginLeft: '10px'}}
+                    on-change={this.lockChange.bind(this)}
+                    value={this.lock}>
+                  </el-switch>
+                </el-tooltip>
+              </span>
               {title}
             </div>
             <div class={"siderbar_content_wrap"}>
               {this.$slots.default}
             </div>
           </div>
-        </div>
-      )
+        </div>)
     },
     updated() {
-      this.calcPaneInstances();
+      this.calcPaneInstances()
     },
     mounted () {
-      this.doc()
+      document.addEventListener('click', this.doc)
       this.calcPaneInstances()
     },
     watch: {
       activeName (newName) {
-        console.log('newName', newName)
         this.setCurrentName(newName)
       }
     }
@@ -272,6 +334,7 @@
   box-sizing: border-box;
   display: flex;
   border: 2px solid;
+  position: absolute;
 }
 .nav_horizontal {
   height: 100%;
@@ -313,11 +376,18 @@
 .siderbar_content .toggle_icon {
   position: absolute;
   cursor: pointer;
+  font-weight: 600;
+  font-size: 20px;
+  top: 4px;
 }
 .siderbar_content_wrap {
   padding: 10px;
   height: 100%;
   overflow: auto;
 }
+.lock_page {
+  position: absolute;
+  top: -2px;
+  z-index: 2;
+}
 </style>
-

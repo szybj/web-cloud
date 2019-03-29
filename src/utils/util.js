@@ -78,11 +78,31 @@ export const orderSelectFormat = (sourceDate, option) => {
   })
 }
 /**
- * 节流
+ * 函数节流
+ * @param fun
+ * @param delay
+ * @returns {Function}
  */
 export const throttle = (fn, delay) => {
+  let last = null
+  return (...args) => {
+    let now = + new Date()
+    if (now - last > delay) {
+      fn(...args)
+      last = now
+    }
+  }
+}
+
+/**
+ * 防抖
+ * @param fn
+ * @param delay
+ * @returns {Function}
+ */
+export const debounce = (fn, delay) => {
   let timer
-  return function(...args) {
+  return (...args) => {
     if (timer) {
       clearTimeout(timer)
     }

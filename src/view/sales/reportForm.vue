@@ -2,8 +2,8 @@
   <content-block>
     <orange-table
       :tableData="tableData"
-      :tableOption="tableOption"
-      :searchOption="searchOption"
+      :tableConfig="tableConfig"
+      :searchConfig="searchConfig"
       :loading="tableLoading"
       :loadingText="tableLoadingText"
       :page="page"
@@ -11,6 +11,7 @@
       @current-change="handleCurrentChange"
       @size-change="handleSizeChange"
       @form-change="handleFormChange"
+      @viewClick='testClick'
       :row-class-name="tableRowClassName">
       <template slot-scope="scope" slot="search">
         <!--<el-form :inline="true" :model="searchForm" size="small" class="demo-form-inline">-->
@@ -38,9 +39,9 @@
       </template>
       <template slot-scope="scope"
                 slot="menu">
-        <el-button @click.native="testClick(scope.row)" type="text" size="small">权限</el-button>
-        <el-button size="small">权限</el-button>
-        <el-button size="small">权限</el-button>
+        <!--<el-button @click.native="testClick(scope.row)" type="text" size="small">权限</el-button>-->
+        <!--<el-button size="small">权限</el-button>-->
+        <!--<el-button size="small">权限</el-button>-->
       </template>
     </orange-table>
   </content-block>
@@ -67,8 +68,8 @@ export default {
       DIC,
       tableLoading: false,
       tableLoadingText: 'wwwwwwwww',
-      searchOption: {},
-      tableOption: {},
+      searchConfig: {},
+      tableConfig: {},
       tableData: [],
       searchForm: {},
       detailQuery: {},
@@ -82,10 +83,11 @@ export default {
   },
   created () {
     this.getViewConfig(this.viewId).then(data => {
-      if (!util.validateNull(data.searchOption) || !util.validateNull(data.tableOption)) {
-        this.searchOption = data.searchOption
-        this.tableOption = data.tableOption
-        this.detailQuery = data.detailQuery
+      console.log('asd', data)
+      if (!util.validateNull(data.searchView) || !util.validateNull(data.tableView)) {
+        this.searchConfig = data.searchView
+        this.tableConfig = data.tableView
+        this.detailQuery = data.tableView.detailQuery
         this.isPage = data.isPage
         this.findReport(this.searchForm)
       } else {
@@ -113,7 +115,7 @@ export default {
       })
       let rouerParams = Object.assign({}, this.detailQuery, {params: rouerQuery})
       this.$store.commit('SET_DETAILQUERY', rouerParams)
-      this.$router.push({ path: `details`, query: { ...rouerParams.params }})
+      this.$router.push({ path: `/work/view/details`, query: { ...rouerParams.params }})
       console.log('rowData', rowData)
     },
     handleFormChange (form) {

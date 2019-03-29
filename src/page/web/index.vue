@@ -12,14 +12,12 @@
       </div>
       <div class="main">
         <nav-bar />
-        <el-scrollbar style="height:100%">
         <keep-alive>
           <router-view class="view"
-          v-if="$route.meta.$keepAlive" />
+                       v-if="$route.meta.$keepAlive" />
         </keep-alive>
-          <router-view class="view"
-          v-if="!$route.meta.$keepAlive" />
-        </el-scrollbar>
+        <router-view class="view"
+                     v-if="!$route.meta.$keepAlive" />
       </div>
     </div>
     <!---->
@@ -58,4 +56,13 @@
 </script>
 
 <style lang="scss" scoped>
+  .view {
+    position: absolute;
+    padding: 10px;
+    overflow: hidden;
+    bottom: 0;
+    top: 40px;
+    left: 0;
+    right: 0;
+  }
 </style>

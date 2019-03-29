@@ -2,6 +2,7 @@
   <el-cascader
     v-model="text"
     :size="size"
+    class='width_190'
     :options="options"
     :clearable="clearable"
     :filterable="filterable"
@@ -83,6 +84,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+  .width_190{
+    width:190px;
+  }
 </style>

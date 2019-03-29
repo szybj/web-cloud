@@ -3,6 +3,7 @@
     <el-select v-model="text"
                v-if="optionGroup"
                :size="size"
+               class='width_190'
                :clearable="clearable"
                :multiple="multiple"
                :reserve-keyword="reserveKeyword"
@@ -24,6 +25,7 @@
     <el-select v-model="text"
                v-else
                :size="size"
+               class='width_190'
                :clearable="clearable"
                :multiple="multiple"
                :reserve-keyword="reserveKeyword"
@@ -135,6 +137,8 @@ export default {
 }
 </script>
 
-<style scoped>
-
+<style scoped lang="scss">
+  .width_190{
+    width:190px;
+  }
 </style>

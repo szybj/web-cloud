@@ -2,16 +2,18 @@
   <div v-loading="loading"
        :element-loading-text="loadingText">
     <!--搜索项-->
-    <div class="searchBox" v-if="setData(searchOption && searchOption.search,true) && searchOption && searchOption.option && searchOption.option.length">
+    <div class="searchBox" v-if="setData(searchConfig && searchConfig.search,true) && searchConfig && searchConfig.option && searchConfig.option.length">
       <slot name="search">
         <orange-form
-        :formOption="searchOption"
+        :formOption="searchConfig"
         :DIC="formDIC"
         @submit-form="handleSubmitForm"></orange-form>
       </slot>
     </div>
     <div class="tableBox">
       <el-table
+        ref='table'
+        :max-height="tabMaxHeight"
         v-if="columnOption && columnOption.length"
         :data="tableData"
         :size="setData(tableConfig.size, 'small')"
@@ -61,11 +63,11 @@
                          :show-overflow-tooltip="column.overHidden">
           <!--复合表头-->
           <el-table-column v-if="column.children"
-          v-for="(k,index) in column.children"
+          v-for="(k, index) in column.children"
+          :key='index'
           :sortable="k.sortable"
           :prop="k.prop"
-          :label="k.label"
-          >
+          :label="k.label">
             <template slot-scope="scope">
               <slot :row="scope.row"
                     :name="k.prop"
@@ -92,6 +94,10 @@
                          :header-align="setData(tableConfig.menuHeaderAlign, 'left')"
                          :width="setData(tableConfig.menuWidth, 200)">
           <template slot-scope="scope">
+            <el-button :type="tableConfig.viewBtnType"
+                       :size="setData(tableConfig.size, 'small')"
+                       @click.stop="rowView(scope.row)"
+                       v-if="setData(tableConfig.viewBtn, false)">{{setData(tableConfig.viewBtnTitle, '详情')}}</el-button>
             <slot name="menu"
                   :row="scope.row">
             </slot>
@@ -132,15 +138,13 @@ export default {
       required: true,
       default: () => {}
     },
-    searchOption: {
+    searchConfig: {
       type: Object,
       default: () => {}
     },
     page: {
       type: Object,
-      default() {
-        return {};
-      }
+      default: () => {}
     },
     loading: {
       type: Boolean,
@@ -151,9 +155,8 @@ export default {
       default: '加载中......'
     },
     tableData: {
-      type: Array,
-      required: true,
-      default: () => []
+      type: [Object, Array],
+      required: true
     }
   },
   computed: {
@@ -164,14 +167,21 @@ export default {
       return !util.validateNull(this.pageUpdate.total)
     },
     pageUpdate () {
-      return this.page
+      return this.page || {}
     }
   },
   created () {
     // this.dataInit()
   },
+  mounted () {
+    window.onresize = this.tableAutoHeight()
+  },
+  destroyed () {
+    window.onresize = null
+  },
   data () {
     return {
+      tabMaxHeight: 300,
       listData: [],
       form: {}
     }
@@ -185,14 +195,14 @@ export default {
       })
     },
     // 设置索引值
-    indexMethod (index) {
+    indexMethod(index) {
       return (index + 1 + ((this.pageUpdate.page || 1) - 1) * (this.pageUpdate.pageRows || 10))
     },
     // 排序回调
     sortChange(val) {
       this.$emit("sortChange", val)
     },
-    handleSubmitForm (val) {
+    handleSubmitForm(val) {
       this.form = val
       this.$emit('form-change', val)
     },
@@ -207,14 +217,33 @@ export default {
       this.pageUpdate.page = val
       this.$emit("current-change", val, this.form)
     },
+    // 查看详情
+    rowView(val) {
+      this.$emit("viewClick", val)
+    },
+    setMaxHeight () {
+      let wrapHeight = document.querySelectorAll('.contentBlock')[0].offsetHeight || 0
+      let searchBoxHeight = this.$refs.table && this.$refs.table.$el.offsetTop || 0
+      this.tabMaxHeight = wrapHeight - searchBoxHeight - 80
+      console.log('searchHeight', wrapHeight)
+      console.log('this.tabMaxHeight', this.tabMaxHeight)
+    },
+    tableAutoHeight () {
+      return util.debounce(this.setMaxHeight, 200)
+    }
   }
 }
 </script>
 
-<style scoped lang="scss">
+<style lang="scss">
 .searchBox{
   box-sizing: border-box;
-  border-bottom: 1px solid #ebeef5
+  border-bottom: 1px solid #ebeef5;
+  form{
+    .el-form-item{
+      margin: 0 10px 10px 0
+    }
+  }
 }
 .tableBox{
   padding-top: 10px
